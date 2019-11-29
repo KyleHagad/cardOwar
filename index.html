@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="UTF-8">
 <head>
+	<meta charset="UTF-8">
 	<title>This Is War</title>
 
 </head>
@@ -25,10 +26,58 @@
 				<div class="hand"></div>
 			</div>
 			<div id="interface">
-				<button id="" type="button" class="btn"></button>
+				<button id="fightButton" type="button" class="btn">Fight</button>
 			</div>
 		</div>
 
 	</div>
+<script>
+	const
+		deck = [],
+		suits = ['sword', 'coin', 'vase', 'rod'],
+		cardFace = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'N', 'P', 'Q', 'K'],
+		players = [[],[]];
+	let
+		firstHand = true;
+
+	const fightButton = document.getElementById('fightButton');
+	fightButton.addEventListener('click', calculateFight);
+
+	function calculateFight() {
+		if(firstHand) {
+			firstHand = false;
+			buildDeck();
+			shuffleDeck();
+		}
+	}
+	async function buildDeck() {
+		try {
+			suits.forEach((suit, suitIndex) => {
+				let cardSuit = suits[suitIndex][0].toUpperCase();
+				cardFace.forEach((face, faceIndex) => {
+					const card = {
+						suit: suits[suitIndex],
+						face: face,
+						value: faceIndex + 1,
+						icon: cardSuit,
+					};
+					console.log(card);
+					deck.push(card);
+				})
+			});
+			//console.log(deck);
+		} catch (er){console.error(er)}
+	}
+	function shuffleDeck() {
+		deck.forEach(card => {
+			//console.log(card);
+			let newPos = Math.floor(Math.random() * (deck.length));
+			let temp = deck[card];
+			deck[card] = deck[newPos];
+			deck[newPos] = temp;
+		});
+		return deck;
+	}
+</script>
 </body>
 </html>
